@@ -1,0 +1,12 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+
+target 'STMSideMenuController_Example', :exclusive => true do
+  pod "STMSideMenuController", :path => "../"
+end
+
+target 'STMSideMenuController_Tests', :exclusive => true do
+  pod "STMSideMenuController", :path => "../"
+
+  
+end
