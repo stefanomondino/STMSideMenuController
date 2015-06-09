@@ -17,7 +17,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    UIViewController* mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"main"];
+
+    
+    [self performSegueWithIdentifier:@"leftMenuSegue" sender:nil];
+    [self performSegueWithIdentifier:@"rightMenuSegue" sender:nil];
+    self.mainViewController = mainViewController;
 }
 
 - (void)didReceiveMemoryWarning

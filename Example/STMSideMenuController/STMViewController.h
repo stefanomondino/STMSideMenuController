@@ -7,7 +7,8 @@
 //
 
 @import UIKit;
+#import "STMSideMenuController.h"
 
-@interface STMViewController : UIViewController
+@interface STMViewController : STMSideMenuController
 
 @end
