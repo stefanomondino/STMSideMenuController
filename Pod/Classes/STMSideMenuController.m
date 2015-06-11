@@ -215,10 +215,7 @@
         [oldController removeFromParentViewController];
     };
     if (animated) {
-        mainViewController.view.alpha = 0;
-        [UIView animateWithDuration:0.5 animations:^{
-            mainViewController.view.alpha = 1;
-        } completion:completion];
+        [self animateFromView:oldController.view toView:mainViewController.view completion:completion];
     }
     else {
         completion(YES);
@@ -321,6 +318,7 @@
 
 }
 
+
 - (void) setRightViewController:(UIViewController *)rightViewController {
     [self.rightViewController.view removeFromSuperview];
     [self.rightViewController removeFromParentViewController];
@@ -381,6 +379,55 @@
         completion(YES);
     }
 }
+
+#pragma mark Animations
+
+- (void) animateFromView:(UIView*) fromView toView:(UIView*) toView completion:(void (^)(BOOL))completion {
+    switch (self.animationType) {
+        case STMAnimationCircularReveal:
+            [self circularAnimationFromView:fromView toView:toView completion:completion];
+            break;
+        case STMAnimationAlpha:
+        default:
+            [self alphaAnimationFromView:fromView toView:toView completion:completion];
+            break;
+    }
+}
+- (void) alphaAnimationFromView:(UIView*) fromView toView:(UIView*) toView completion:(void (^)(BOOL))completion {
+    toView.alpha = 0;
+     [UIView animateWithDuration:0.5 animations:^{
+     toView.alpha = 1;
+     } completion:completion];
+
+}
+- (CGRect) squareAroundPoint:(CGPoint) point withRadius:(CGFloat) radius {
+    return CGRectInset(CGRectMake(point.x, point.y, 0, 0), -radius, -radius);
+}
+
+- (void) circularAnimationFromView:(UIView*) fromView toView:(UIView*) toView completion:(void (^)(BOOL))completion{
+    CGFloat initialRadius = 20;
+    CGFloat finalRadius = MAX(toView.frame.size.width,toView.frame.size.height)*2;
+    UIBezierPath* start = [UIBezierPath bezierPathWithOvalInRect:[self squareAroundPoint:CGPointMake(0, 0) withRadius:initialRadius]];
+    UIBezierPath* end = [UIBezierPath bezierPathWithOvalInRect:[self squareAroundPoint:CGPointMake(0,0) withRadius:finalRadius]];
+    CAShapeLayer *mask = [[CAShapeLayer alloc] init];
+    mask.path = end.CGPath;
+    [CATransaction begin];
+    CABasicAnimation * animation = [CABasicAnimation animationWithKeyPath:@"path"];
+    animation.fromValue = (id)start.CGPath;
+    animation.toValue = (id)end.CGPath;
+    animation.duration = .5;
+    [CATransaction setCompletionBlock:^{
+        completion(YES);
+    }];
+    toView.layer.mask = mask;
+    [mask addAnimation:animation forKey:@"show"];
+    [CATransaction commit];
+    
+}
+
+
+
+
 @end
 
 
@@ -491,6 +538,10 @@
                                                                    views:NSDictionaryOfVariableBindings(self)]];
     return right;
 }
+
+
+
+
 @end
 
 @implementation STMSideMenuMainSegue

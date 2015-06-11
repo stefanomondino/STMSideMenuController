@@ -161,10 +161,10 @@
             </objects>
             <point key="canvasLocation" x="-629" y="-567"/>
         </scene>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="dBF-NY-tqS">
             <objects>
-                <viewController id="9N3-9A-Afd" sceneMemberID="viewController">
+                <viewController id="9N3-9A-Afd" customClass="STMMainViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Wpi-dm-L5h"/>
                         <viewControllerLayoutGuide type="bottom" id="NeB-t1-QKO"/>
@@ -178,6 +178,9 @@
                                 <state key="normal" title="Button">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="J3o-C3-YFq" kind="custom" customClass="STMSideMenuMainSegue" id="Ll6-Qz-y5N"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.4823529412" green="0.72549019609999998" blue="0.35294117650000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

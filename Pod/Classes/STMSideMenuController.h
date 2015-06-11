@@ -7,6 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+
+typedef enum {
+    STMAnimationAlpha,
+    STMAnimationCircularReveal
+} STMSideMenuAnimations;
+
 @class STMSideMenuController;
 @interface UIViewController(STMSideMenuController)
 @property (nonatomic,readonly) STMSideMenuController* sideMenuController;
@@ -27,6 +33,7 @@
 @end
 
 @interface STMSideMenuController : UIViewController
+@property (nonatomic,assign) STMSideMenuAnimations animationType;
 @property (nonatomic,strong) UIViewController* mainViewController;
 @property (nonatomic,strong) UIViewController* leftViewController;
 @property (nonatomic,strong) UIViewController* rightViewController;

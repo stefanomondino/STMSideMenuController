@@ -17,6 +17,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.animationType = STMAnimationCircularReveal;
+    
     UIViewController* mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"main"];
 
     
