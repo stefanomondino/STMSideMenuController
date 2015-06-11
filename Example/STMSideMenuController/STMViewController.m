@@ -24,7 +24,12 @@
     [self performSegueWithIdentifier:@"rightMenuSegue" sender:nil];
     self.mainViewController = mainViewController;
 }
-
+- (CGFloat)leftWidth {
+    return 300;
+}
+- (CGFloat) rightWidth {
+    return 176;
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

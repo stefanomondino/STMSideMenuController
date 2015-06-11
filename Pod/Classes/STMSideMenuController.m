@@ -22,10 +22,10 @@
     return nil;
 }
 - (IBAction)showLeftMenu:(id)sender {
-    [self.sideMenuController showLeftViewController];
+    [self.sideMenuController showLeftViewControllerAnimated:YES];
 }
 - (IBAction)showRightMenu:(id)sender {
-    [self.sideMenuController showRightViewController];
+    [self.sideMenuController showRightViewControllerAnimated:YES];
 }
 @end
 
@@ -35,6 +35,8 @@
 @property (nonatomic,strong) UIPanGestureRecognizer* rightPanGesture;
 @property (nonatomic,weak) UIView* panningView;
 @property (nonatomic,assign) CGFloat panningPadding;
+@property (nonatomic,weak) NSLayoutConstraint* leftConstraint;
+@property (nonatomic,weak) NSLayoutConstraint* rightConstraint;
 @end
 
 @implementation STMSideMenuController
@@ -79,49 +81,64 @@
     }
     return _rightPanGesture;
 }
+/*
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+
+    if (self.leftViewController){
+        [self.leftViewController.view updateConstraints];
+        if (self.isLeftOpen) [self showLeftViewControllerAnimated:YES];
+        else [self hideLeftViewControllerAnimated:YES];
+    }
+    if (self.rightViewController){
+        (self.isRightOpen) ? [self showRightViewControllerAnimated:YES]:[self hideRightViewControllerAnimated:YES];
+    }
+}
+*/
 - (void) handlePan:(UIPanGestureRecognizer*) panGesture {
     CGFloat velocity = [panGesture velocityInView:panGesture.view].x;
     UIScreenEdgePanGestureRecognizer* edge = [panGesture isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]?(UIScreenEdgePanGestureRecognizer*)panGesture:nil;
     BOOL isLeft = _panningView == self.leftViewController.view || edge.edges == UIRectEdgeLeft ;
+
     if (panGesture.state == UIGestureRecognizerStateBegan) {
         
         if (!self.isLeftOpen && !self.isRightOpen) {
             _panningView = isLeft? self.leftViewController.view : self.rightViewController.view;
-            _panningPadding = isLeft? self.leftNWClosed:self.rightNWClosed;
+           
             self.shadowView.hidden = NO;
             self.shadowView.alpha = 0;
         }
         else {
             _panningView = self.isLeftOpen?self.leftViewController.view : self.rightViewController.view;
-            _panningPadding = self.isLeftOpen?self.leftNWOpen : self.rightNWOpen;
         }
+         _panningPadding = _panningView.frame.origin.x;
     }
     else if (panGesture.state == UIGestureRecognizerStateEnded) {
+
         if (!_panningView) return;
         if (velocity > self.view.frame.size.width/3) {
             if (!self.isRightOpen && isLeft){
-                [self showLeftViewController];
+                [self showLeftViewControllerAnimated:YES];
             }
             else {
-                [self hideRightViewController];
+                [self hideRightViewControllerAnimated:YES];
             }
         }
         else if (velocity < -self.view.frame.size.width/3) {
             if (!self.isLeftOpen && !isLeft){
-                [self showRightViewController];
+                [self showRightViewControllerAnimated:YES];
             }
             else {
-                [self hideLeftViewController];
+                [self hideLeftViewControllerAnimated:YES];
             }
         }
         else {
             if (isLeft) {
-                CGFloat pos = (self.leftViewController.view.frame.origin.x - self.leftNWOpen)/(self.leftNWClosed-self.leftNWOpen);
-                ABS(pos) > 0.5?[self hideLeftViewController]:[self showLeftViewController];
+                CGFloat pos = (self.leftViewController.view.frame.origin.x - self.leftOpenPosition)/(self.leftWidth-self.leftOpenPosition);
+                ABS(pos) > 0.5?[self hideLeftViewControllerAnimated:YES]:[self showLeftViewControllerAnimated:YES];
             }
             else {
-                CGFloat pos = (self.rightViewController.view.frame.origin.x - self.rightNWOpen)/(self.rightNWClosed-self.rightNWOpen);
-                ABS(pos) > 0.5?[self hideRightViewController]:[self showRightViewController];
+                CGFloat pos = (self.rightViewController.view.frame.origin.x - self.rightOpenPosition)/(self.rightClosedPosition-self.rightOpenPosition);
+                ABS(pos) > 0.5?[self hideRightViewControllerAnimated:YES]:[self showRightViewControllerAnimated:YES];
             }
         }
         
@@ -134,27 +151,21 @@
         
         CGFloat x = [panGesture translationInView:self.view].x;
         
-        CGFloat closedNW = isLeft? self.leftNWClosed:self.rightNWClosed;
-        CGFloat openNW = isLeft? self.leftNWOpen : self.rightNWOpen;
-        
-        
+        CGFloat closedNW = isLeft? self.leftClosedPosition:self.rightClosedPosition;
+        CGFloat openNW = isLeft? self.leftOpenPosition : self.rightOpenPosition;
+
         CGRect frame = _panningView.frame;
         CGFloat alpha;
         if (isLeft){
-        x =  MAX(-closedNW,MIN(x - self.panningPadding,openNW));
-        alpha = self.shadowViewAlpha - ABS(self.shadowViewAlpha* (x - closedNW)/(closedNW-openNW));
+            x =  MAX(self.leftClosedPosition,MIN(x + self.panningPadding,self.leftOpenPosition));
+            alpha = (self.shadowViewAlpha* ( self.leftClosedPosition-x)/(self.leftClosedPosition-self.leftOpenPosition));
         }
         else {
-        
-        x =  MAX(openNW,MIN(x + self.panningPadding,closedNW));
-            NSLog(@"%.2f",x);
             
-          alpha   = self.shadowViewAlpha - ABS(self.shadowViewAlpha* (x - openNW)/(openNW-closedNW));
+            x =  MAX(openNW,MIN(x + self.panningPadding,closedNW));
+            alpha   = self.shadowViewAlpha - ABS(self.shadowViewAlpha* (x - openNW)/(openNW-closedNW));
         }
-        NSLog(@"x: %.2f - alpha: %.2f",x,alpha);
-        
         frame.origin.x = x;
-        
         self.shadowView.alpha = alpha;
         
         _panningView.frame = frame;
@@ -175,21 +186,43 @@
 
 - (void) hideController:(UITapGestureRecognizer* )recognizer {
     if (self.isLeftOpen) {
-        [self hideLeftViewController];
+        [self hideLeftViewControllerAnimated:YES];
     }
     if (self.isRightOpen) {
-        [self hideRightViewController];
+        [self hideRightViewControllerAnimated:YES];
     }
     
 }
 - (void)setMainViewController:(UIViewController *)mainViewController {
-    [self.mainViewController.view removeFromSuperview];
-    [self.mainViewController removeFromParentViewController];
+    [self setMainViewController:mainViewController animated:NO];
+}
+
+- (void)setMainViewController:(UIViewController *)mainViewController animated:(BOOL) animated {
+    UIViewController* oldController = self.mainViewController;
+    if (!oldController) animated = NO;
     _mainViewController = mainViewController;
     [self addChildViewController:mainViewController];
-    [self.view insertSubview:mainViewController.view atIndex:0];
-    [self hideLeftViewController];
-    [self hideRightViewController];
+    if (!oldController) {
+        [self.view insertSubview:mainViewController.view atIndex:0];
+    }
+    else {
+        [self.view insertSubview:mainViewController.view aboveSubview:oldController.view];
+    }
+    [self hideLeftViewControllerAnimated:animated];
+    [self hideRightViewControllerAnimated:animated];
+    void (^completion)(BOOL) = ^(BOOL finished) {
+        [oldController.view removeFromSuperview];
+        [oldController removeFromParentViewController];
+    };
+    if (animated) {
+        mainViewController.view.alpha = 0;
+        [UIView animateWithDuration:0.5 animations:^{
+            mainViewController.view.alpha = 1;
+        } completion:completion];
+    }
+    else {
+        completion(YES);
+    }
     
     [mainViewController.view addGestureRecognizer:self.leftPanGesture];
     [mainViewController.view addGestureRecognizer:self.rightPanGesture];
@@ -199,99 +232,155 @@
     [self.leftViewController.view removeFromSuperview];
     [self.leftViewController removeFromParentViewController];
     _leftViewController = leftViewController;
-    CGFloat w = self.leftNWClosed;
+    CGFloat w = self.leftWidth;
     [self addChildViewController:leftViewController];
-    leftViewController.view.frame = CGRectMake(-w, 0, w, self.view.frame.size.height);
+    leftViewController.view.frame = CGRectMake(self.leftClosedPosition, 0, w, self.view.frame.size.height);
     [self.view addSubview:leftViewController.view];
-    [self hideLeftViewController];
+    self.leftConstraint = [leftViewController.view alignLeftWithWidth:w];
+    [self hideLeftViewControllerAnimated:NO];
     leftViewController.view.userInteractionEnabled = YES;
     [leftViewController.view addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)]];
 }
-- (CGFloat) leftNWOpen {
+- (CGFloat) leftOpenPosition {
     return 0;
 }
-- (CGFloat) leftNWClosed {
-    return self.view.frame.size.width*0.75;
+- (CGFloat) leftClosedPosition {
+    return - self.leftWidth;
+    //return - MAX(self.view.frame.size.height,self.view.frame.size.width);
 }
 
-- (CGFloat) rightNWClosed {
+- (CGFloat) leftWidth {
+    return 200;
+}
+
+- (CGFloat) rightClosedPosition {
     return self.view.frame.size.width;
 }
-- (CGFloat) rightNWOpen {
-    return self.view.frame.size.width*0.25;
+- (CGFloat) rightOpenPosition {
+    return self.view.frame.size.width - [self rightWidth];
 }
-
+- (CGFloat) rightWidth {
+    return 100;
+}
 
 - (BOOL) isLeftOpen {
-    return self.leftViewController &&  self.leftViewController.view.frame.origin.x != -self.leftNWClosed;
+    return self.leftViewController &&  self.leftViewController.view.frame.origin.x != self.leftClosedPosition;
 }
 
+
 - (BOOL) isRightOpen {
-    return self.rightViewController &&  self.rightViewController.view.frame.origin.x == self.rightNWOpen;
+    return self.rightViewController &&  self.rightViewController.view.frame.origin.x != self.rightClosedPosition;
 }
-- (void) showLeftViewController {
+- (void) showLeftViewControllerAnimated:(BOOL) animated {
     UIView* view = self.leftViewController.view;
+    NSLayoutConstraint* left = self.leftConstraint;
     UIView* shadowView = self.shadowView;
     CGFloat shadowViewAlpha = self.shadowViewAlpha;
     shadowView.hidden = NO;
-    CGFloat w = self.leftNWOpen;
-    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        view.frame =CGRectMake(w,0,view.frame.size.width,view.frame.size.height);
+    CGFloat w = self.leftOpenPosition;
+    left.constant = w;
+    void (^animation)(void) = ^{
+        [view layoutIfNeeded];
         shadowView.alpha = shadowViewAlpha;
-    } completion:^(BOOL finished) {
-    }];
+    };
+    void (^completion)(BOOL) = ^(BOOL finished){
+
+    };
+    
+    if (animated) {
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:animation completion:completion];
+    }
+    else {
+        animation();
+        completion(YES);
+    }
 }
 
-- (void) hideLeftViewController {
+- (void) hideLeftViewControllerAnimated:(BOOL) animated {
     UIView* view = self.leftViewController.view;
+    NSLayoutConstraint* left = self.leftConstraint;
     UIView* shadowView = self.shadowView;
-    CGFloat w = self.leftNWClosed;
-    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        view.frame = CGRectMake(-w,0,view.frame.size.width,view.frame.size.height);
+    CGFloat x = self.leftClosedPosition;
+    left.constant = x;
+    void (^animation)(void) = ^{
+        [view layoutIfNeeded];
         shadowView.alpha = 0;
-    } completion:^(BOOL finished) {
-         if (finished) shadowView.hidden = YES;
-    }];
+    };
+    void (^completion)(BOOL) = ^(BOOL finished){
+        [view setNeedsUpdateConstraints];
+        [view updateConstraintsIfNeeded];
+        if (finished) shadowView.hidden = YES;
+    };
+    if (animated) {
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:animation completion:completion];
+    }
+    else {
+        animation();
+        completion(YES);
+    }
+
 }
 
 - (void) setRightViewController:(UIViewController *)rightViewController {
     [self.rightViewController.view removeFromSuperview];
     [self.rightViewController removeFromParentViewController];
     _rightViewController = rightViewController;
-    CGFloat w = self.leftNWClosed;
+    CGFloat w = self.rightWidth;
     [self addChildViewController:rightViewController];
     rightViewController.view.frame = CGRectMake(-w, 0, w, self.view.frame.size.height);
     [self.view addSubview:rightViewController.view];
-    [self hideRightViewController];
+    self.rightConstraint = [rightViewController.view alignRightWithWidth:self.leftWidth];
+    [self hideRightViewControllerAnimated:NO];
     rightViewController.view.userInteractionEnabled = YES;
     [rightViewController.view addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)]];
 }
 
-- (void) showRightViewController {
+- (void) showRightViewControllerAnimated:(BOOL) animated {
     UIView* view = self.rightViewController.view;
     UIView* shadowView = self.shadowView;
     CGFloat shadowViewAlpha = self.shadowViewAlpha;
     shadowView.hidden = NO;
-    CGFloat w = self.rightNWOpen;
-    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        view.frame =CGRectMake(w,0,view.frame.size.width,view.frame.size.height);
+    CGFloat w = self.view.frame.size.width-self.rightOpenPosition;
+    NSLayoutConstraint* right = self.rightConstraint;
+    right.constant = w;
+    
+    void (^animation)(void) = ^{
+        [view layoutIfNeeded];
         shadowView.alpha = shadowViewAlpha;
-    } completion:^(BOOL finished) {
-    }];
+    };
+    void (^completion)(BOOL) = ^(BOOL finished){
+        ;
+    };
+    if (animated) {
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:animation completion:completion];
+    }
+    else {
+        animation();
+        completion(YES);
+    }
+    
 }
 
-- (void) hideRightViewController {
+- (void) hideRightViewControllerAnimated:(BOOL) animated {
     UIView* view = self.rightViewController.view;
     UIView* shadowView = self.shadowView;
-    CGFloat w = self.rightNWClosed;
-    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        view.frame = CGRectMake(w,0,view.frame.size.width,view.frame.size.height);
+    CGFloat w = self.view.frame.size.width-self.rightClosedPosition;
+    self.rightConstraint.constant = w;
+    void (^animation)(void) = ^{
+        [view layoutIfNeeded];
         shadowView.alpha = 0;
-    } completion:^(BOOL finished) {
+    };
+    void (^completion)(BOOL) = ^(BOOL finished){
         if (finished) shadowView.hidden = YES;
-    }];
+    };
+    if (animated) {
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:animation completion:completion];
+    }
+    else {
+        animation();
+        completion(YES);
+    }
 }
-
 @end
 
 
@@ -333,6 +422,75 @@
                                                              multiplier:1.0
                                                                constant:0.0]];
 }
+
+- (NSLayoutConstraint*) alignLeftWithWidth:(CGFloat) width {
+    UIView* containerView = self.superview;
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:self
+                                                            attribute:NSLayoutAttributeLeading
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:containerView
+                                                            attribute:NSLayoutAttributeLeading
+                                                           multiplier:1.0
+                                                             constant:-width];
+    [containerView addConstraint:left];
+    
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[self(==%.0f)]",width]
+                                                                   options:0
+                                                                   metrics:nil
+                                                                     views:NSDictionaryOfVariableBindings(self)]];
+    return left;
+}
+- (NSLayoutConstraint*) alignRightWithWidth:(CGFloat) width {
+    UIView* containerView = self.superview;
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:containerView
+                                                            attribute:NSLayoutAttributeTrailing
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:self
+                                                            attribute:NSLayoutAttributeLeading
+                                                           multiplier:1.0
+                                                             constant:width];
+    [containerView addConstraint:right];
+    
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[self(==%.0f)]",width]
+                                                                 options:0
+                                                                 metrics:nil
+                                                                   views:NSDictionaryOfVariableBindings(self)]];
+    return right;
+}
 @end
 
 @implementation STMSideMenuMainSegue
@@ -340,7 +498,7 @@
 - (void)perform {
     STMSideMenuController* controller = [self.sourceViewController sideMenuController];
     UIViewController* destination = self.destinationViewController;
-    [controller setMainViewController:destination];
+    [controller setMainViewController:destination animated:YES];
 }
 
 @end
