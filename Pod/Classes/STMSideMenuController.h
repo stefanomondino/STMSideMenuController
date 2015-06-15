@@ -10,19 +10,16 @@
 
 typedef enum {
     STMAnimationAlpha,
-    STMAnimationCircularReveal
+    STMAnimationCircularReveal,
+    STMAnimationSlideUp,
+    STMAnimationCustom,
+    STMAnimationNone
 } STMSideMenuAnimations;
 
 @class STMSideMenuController;
+
 @interface UIViewController(STMSideMenuController)
 @property (nonatomic,readonly) STMSideMenuController* sideMenuController;
-@end
-
-@interface UIView (STMSideMenuController)
-
-- (void)stm_centerInSuperview;
-- (NSLayoutConstraint*) alignLeftWithWidth:(CGFloat) width ;
-- (NSLayoutConstraint*) alignRightWithWidth:(CGFloat) width;
 @end
 
 @interface STMSideMenuMainSegue : UIStoryboardSegue
@@ -37,15 +34,18 @@ typedef enum {
 @property (nonatomic,strong) UIViewController* mainViewController;
 @property (nonatomic,strong) UIViewController* leftViewController;
 @property (nonatomic,strong) UIViewController* rightViewController;
-@property (nonatomic,readonly) CGFloat leftOpenPosition;
-@property (nonatomic,readonly) CGFloat leftClosedPosition;
-@property (nonatomic,readonly) CGFloat leftWidth;
-@property (nonatomic,readonly) CGFloat rightOpenPosition;
-@property (nonatomic,readonly) CGFloat rightClosedPosition;
-@property (nonatomic,readonly) CGFloat rightWidth;
+@property (nonatomic,assign) CGFloat leftWidth;
+@property (nonatomic,assign) CGFloat rightWidth;
+@property (nonatomic,assign) CGFloat shadowViewAlpha;
+@property (nonatomic,strong) UIColor* shadowViewColor;
+
 - (void)setMainViewController:(UIViewController *)mainViewController animated:(BOOL) animated;
 - (void) showLeftViewControllerAnimated:(BOOL) animated;
 - (void) hideLeftViewControllerAnimated:(BOOL) animated;
 - (void) showRightViewControllerAnimated:(BOOL) animated;
 - (void) hideRightViewControllerAnimated:(BOOL) animated;
+
+/** Define a custom transition between views */
+- (void) customAnimationFromView:(UIView*) fromView toView:(UIView*) toView completion:(void (^)(BOOL))completion;
+
 @end

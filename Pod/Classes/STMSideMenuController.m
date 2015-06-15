@@ -8,7 +8,12 @@
 
 #import "STMSideMenuController.h"
 
+@interface UIView (STMSideMenuController)
 
+- (void)stm_centerInSuperview;
+- (NSLayoutConstraint*) stm_alignLeftWithWidth:(CGFloat) width ;
+- (NSLayoutConstraint*) stm_alignRightWithWidth:(CGFloat) width;
+@end
 
 @implementation UIViewController(STMSideMenuController)
 - (STMSideMenuController *)sideMenuController {
@@ -37,6 +42,10 @@
 @property (nonatomic,assign) CGFloat panningPadding;
 @property (nonatomic,weak) NSLayoutConstraint* leftConstraint;
 @property (nonatomic,weak) NSLayoutConstraint* rightConstraint;
+@property (nonatomic,assign) CGFloat leftOpenPosition;
+@property (nonatomic,assign) CGFloat leftClosedPosition;
+@property (nonatomic,assign) CGFloat rightOpenPosition;
+@property (nonatomic,assign) CGFloat rightClosedPosition;
 @end
 
 @implementation STMSideMenuController
@@ -44,10 +53,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupShadowView];
-    
+    self.leftWidth = 200;
+    self.rightWidth = 100;
+}
+- (void)setLeftWidth:(CGFloat)leftWidth {
+    _leftWidth = leftWidth;
+    self.leftOpenPosition = 0;
+    self.leftClosedPosition = -leftWidth;
+}
+
+- (void)setRightWidth:(CGFloat)rightWidth {
+    _rightWidth = rightWidth;
+    self.rightOpenPosition  =  self.view.frame.size.width - rightWidth;
+    self.rightClosedPosition  =  self.view.frame.size.width;
 }
 - (void) setupShadowView {
     UIView* shadowView = [[UIView alloc] init];
+    self.shadowViewAlpha = 0.5;
+    self.shadowViewColor = [UIColor blackColor];
     self.shadowView = shadowView;
     self.shadowView.backgroundColor = self.shadowViewColor;
     self.shadowView.alpha = self.shadowViewAlpha;
@@ -57,12 +80,15 @@
     [self.shadowView addGestureRecognizer:tap];
     [self.shadowView stm_centerInSuperview];
 }
-- (UIColor*) shadowViewColor {
-    return [UIColor blackColor] ;
+- (void)setShadowViewColor:(UIColor *)shadowViewColor {
+    _shadowViewColor = shadowViewColor;
+    self.shadowView.backgroundColor = shadowViewColor;
 }
-- (CGFloat) shadowViewAlpha {
-    return 0.5;
+- (void)setShadowViewAlpha:(CGFloat)shadowViewAlpha {
+    _shadowViewAlpha = shadowViewAlpha;
+    self.shadowView.alpha = shadowViewAlpha;
 }
+
 - (UIPanGestureRecognizer*) leftPanGesture {
     if (!_leftPanGesture) {
         UIScreenEdgePanGestureRecognizer* pan = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
@@ -81,19 +107,7 @@
     }
     return _rightPanGesture;
 }
-/*
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 
-    if (self.leftViewController){
-        [self.leftViewController.view updateConstraints];
-        if (self.isLeftOpen) [self showLeftViewControllerAnimated:YES];
-        else [self hideLeftViewControllerAnimated:YES];
-    }
-    if (self.rightViewController){
-        (self.isRightOpen) ? [self showRightViewControllerAnimated:YES]:[self hideRightViewControllerAnimated:YES];
-    }
-}
-*/
 - (void) handlePan:(UIPanGestureRecognizer*) panGesture {
     CGFloat velocity = [panGesture velocityInView:panGesture.view].x;
     UIScreenEdgePanGestureRecognizer* edge = [panGesture isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]?(UIScreenEdgePanGestureRecognizer*)panGesture:nil;
@@ -233,32 +247,14 @@
     [self addChildViewController:leftViewController];
     leftViewController.view.frame = CGRectMake(self.leftClosedPosition, 0, w, self.view.frame.size.height);
     [self.view addSubview:leftViewController.view];
-    self.leftConstraint = [leftViewController.view alignLeftWithWidth:w];
+    self.leftConstraint = [leftViewController.view stm_alignLeftWithWidth:w];
     [self hideLeftViewControllerAnimated:NO];
     leftViewController.view.userInteractionEnabled = YES;
     [leftViewController.view addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)]];
 }
-- (CGFloat) leftOpenPosition {
-    return 0;
-}
-- (CGFloat) leftClosedPosition {
-    return - self.leftWidth;
-    //return - MAX(self.view.frame.size.height,self.view.frame.size.width);
-}
 
-- (CGFloat) leftWidth {
-    return 200;
-}
 
-- (CGFloat) rightClosedPosition {
-    return self.view.frame.size.width;
-}
-- (CGFloat) rightOpenPosition {
-    return self.view.frame.size.width - [self rightWidth];
-}
-- (CGFloat) rightWidth {
-    return 100;
-}
+
 
 - (BOOL) isLeftOpen {
     return self.leftViewController &&  self.leftViewController.view.frame.origin.x != self.leftClosedPosition;
@@ -327,7 +323,7 @@
     [self addChildViewController:rightViewController];
     rightViewController.view.frame = CGRectMake(-w, 0, w, self.view.frame.size.height);
     [self.view addSubview:rightViewController.view];
-    self.rightConstraint = [rightViewController.view alignRightWithWidth:self.leftWidth];
+    self.rightConstraint = [rightViewController.view stm_alignRightWithWidth:self.leftWidth];
     [self hideRightViewControllerAnimated:NO];
     rightViewController.view.userInteractionEnabled = YES;
     [rightViewController.view addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)]];
@@ -387,12 +383,25 @@
         case STMAnimationCircularReveal:
             [self circularAnimationFromView:fromView toView:toView completion:completion];
             break;
+        case STMAnimationSlideUp:
+            [self slideUpAnimationFromView:fromView toView:toView completion:completion];
+            break;
         case STMAnimationAlpha:
-        default:
             [self alphaAnimationFromView:fromView toView:toView completion:completion];
+            break;
+        case STMAnimationCustom:
+            [self customAnimationFromView:fromView toView:toView completion:completion];
+            break;
+        case STMAnimationNone:
+            default:
+            completion(NO);
             break;
     }
 }
+- (void) customAnimationFromView:(UIView*) fromView toView:(UIView*) toView completion:(void (^)(BOOL))completion {
+    completion(YES);
+}
+
 - (void) alphaAnimationFromView:(UIView*) fromView toView:(UIView*) toView completion:(void (^)(BOOL))completion {
     toView.alpha = 0;
      [UIView animateWithDuration:0.5 animations:^{
@@ -425,7 +434,23 @@
     
 }
 
-
+- (void) slideUpAnimationFromView:(UIView*) fromView toView:(UIView*) toView completion:(void (^)(BOOL))completion{
+    CGRect toViewEndFrame = toView.frame;
+    CGRect toViewStartFrame = toView.frame;
+    toViewStartFrame.origin.y = toViewStartFrame.origin.y + toViewStartFrame.size.height;
+    CGRect fromViewEndFrame = fromView.frame;
+    CGRect fromViewStartFrame = fromView.frame;
+    fromViewEndFrame.origin.y = fromViewEndFrame.origin.y -  fromViewEndFrame.size.height;
+    toView.frame = toViewStartFrame;
+    fromView.frame = fromViewStartFrame;
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        toView.frame = toViewEndFrame;
+        fromView.frame = fromViewEndFrame;
+    } completion:^(BOOL finished) {
+        completion(YES);
+    }];
+}
 
 
 @end
@@ -470,7 +495,7 @@
                                                                constant:0.0]];
 }
 
-- (NSLayoutConstraint*) alignLeftWithWidth:(CGFloat) width {
+- (NSLayoutConstraint*) stm_alignLeftWithWidth:(CGFloat) width {
     UIView* containerView = self.superview;
     self.translatesAutoresizingMaskIntoConstraints = NO;
 
@@ -504,7 +529,7 @@
                                                                      views:NSDictionaryOfVariableBindings(self)]];
     return left;
 }
-- (NSLayoutConstraint*) alignRightWithWidth:(CGFloat) width {
+- (NSLayoutConstraint*) stm_alignRightWithWidth:(CGFloat) width {
     UIView* containerView = self.superview;
     self.translatesAutoresizingMaskIntoConstraints = NO;
     

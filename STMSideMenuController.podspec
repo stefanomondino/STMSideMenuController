@@ -10,19 +10,16 @@
 Pod::Spec.new do |s|
   s.name             = "STMSideMenuController"
   s.version          = "0.1.0"
-  s.summary          = "A short description of STMSideMenuController."
+  s.summary          = "A Google-like side-menu/drawer for iOS written in Objective-C"
   s.description      = <<-DESC
-                       An optional longer description of STMSideMenuController
-
-                       * Markdown format.
-                       * Don't worry about the indent, we strip it!
+                       A Google-like side-menu/drawer for iOS written in Objective-C with custom transition for central section
                        DESC
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/STMSideMenuController"
+  s.homepage         = "https://github.com/stefanomondino/STMSideMenuController"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "Stefano Mondino" => "stefano.mondino.dev@gmail.com" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/STMSideMenuController.git", :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.source           = { :git => "https://github.com/stefanomondino/STMSideMenuController.git", :tag => s.version.to_s }
+  # s.social_media_url = 'https://twitter.com/puntoste'
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true

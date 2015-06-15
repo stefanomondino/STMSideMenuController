@@ -17,8 +17,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.animationType = STMAnimationCircularReveal;
+    self.leftWidth = 250;
+    self.rightWidth = 150;
+    self.animationType = STMAnimationSlideUp;
     
     UIViewController* mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"main"];
 
@@ -27,16 +28,12 @@
     [self performSegueWithIdentifier:@"rightMenuSegue" sender:nil];
     self.mainViewController = mainViewController;
 }
+/*
 - (CGFloat)leftWidth {
     return 300;
 }
 - (CGFloat) rightWidth {
     return 176;
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
+*/
 @end
