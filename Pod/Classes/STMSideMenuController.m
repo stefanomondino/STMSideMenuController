@@ -323,7 +323,7 @@
     [self addChildViewController:rightViewController];
     rightViewController.view.frame = CGRectMake(-w, 0, w, self.view.frame.size.height);
     [self.view addSubview:rightViewController.view];
-    self.rightConstraint = [rightViewController.view stm_alignRightWithWidth:self.leftWidth];
+    self.rightConstraint = [rightViewController.view stm_alignRightWithWidth:self.rightWidth];
     [self hideRightViewControllerAnimated:NO];
     rightViewController.view.userInteractionEnabled = YES;
     [rightViewController.view addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)]];
