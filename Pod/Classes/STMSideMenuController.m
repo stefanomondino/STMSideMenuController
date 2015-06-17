@@ -61,7 +61,18 @@
     self.leftOpenPosition = 0;
     self.leftClosedPosition = -leftWidth;
 }
-
+- (CGFloat)sideAnimationDuration {
+    if(_sideAnimationDuration <= 0) {
+        _sideAnimationDuration = 0.2;
+    }
+    return _sideAnimationDuration;
+}
+- (CGFloat)mainAnimationDuration {
+    if (_mainAnimationDuration <= 0) {
+        _mainAnimationDuration = 0.2;
+    }
+    return _mainAnimationDuration;
+}
 - (void)setRightWidth:(CGFloat)rightWidth {
     _rightWidth = rightWidth;
     self.rightOpenPosition  =  self.view.frame.size.width - rightWidth;
@@ -111,7 +122,7 @@
 - (void) handlePan:(UIPanGestureRecognizer*) panGesture {
     CGFloat velocity = [panGesture velocityInView:panGesture.view].x;
     UIScreenEdgePanGestureRecognizer* edge = [panGesture isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]?(UIScreenEdgePanGestureRecognizer*)panGesture:nil;
-    BOOL isLeft = _panningView == self.leftViewController.view || edge.edges == UIRectEdgeLeft ;
+    BOOL isLeft = ((_panningView && _panningView == self.leftViewController.view) || (edge.edges == UIRectEdgeLeft)) ;
 
     if (panGesture.state == UIGestureRecognizerStateBegan) {
         
@@ -281,7 +292,7 @@
     };
     
     if (animated) {
-        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:animation completion:completion];
+        [UIView animateWithDuration:self.sideAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:animation completion:completion];
     }
     else {
         animation();
@@ -305,7 +316,7 @@
         if (finished) shadowView.hidden = YES;
     };
     if (animated) {
-        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:animation completion:completion];
+        [UIView animateWithDuration:self.sideAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:animation completion:completion];
     }
     else {
         animation();
@@ -346,7 +357,7 @@
         ;
     };
     if (animated) {
-        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:animation completion:completion];
+        [UIView animateWithDuration:self.sideAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:animation completion:completion];
     }
     else {
         animation();
@@ -368,7 +379,7 @@
         if (finished) shadowView.hidden = YES;
     };
     if (animated) {
-        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:animation completion:completion];
+        [UIView animateWithDuration:self.sideAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:animation completion:completion];
     }
     else {
         animation();
@@ -404,7 +415,7 @@
 
 - (void) alphaAnimationFromView:(UIView*) fromView toView:(UIView*) toView completion:(void (^)(BOOL))completion {
     toView.alpha = 0;
-     [UIView animateWithDuration:0.5 animations:^{
+     [UIView animateWithDuration:self.mainAnimationDuration animations:^{
      toView.alpha = 1;
      } completion:completion];
 
@@ -424,7 +435,7 @@
     CABasicAnimation * animation = [CABasicAnimation animationWithKeyPath:@"path"];
     animation.fromValue = (id)start.CGPath;
     animation.toValue = (id)end.CGPath;
-    animation.duration = .5;
+    animation.duration = self.mainAnimationDuration;
     [CATransaction setCompletionBlock:^{
         completion(YES);
     }];
@@ -444,7 +455,7 @@
     toView.frame = toViewStartFrame;
     fromView.frame = fromViewStartFrame;
     
-    [UIView animateWithDuration:0.25 animations:^{
+    [UIView animateWithDuration:self.mainAnimationDuration animations:^{
         toView.frame = toViewEndFrame;
         fromView.frame = fromViewEndFrame;
     } completion:^(BOOL finished) {
