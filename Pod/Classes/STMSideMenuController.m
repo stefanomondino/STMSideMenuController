@@ -262,8 +262,25 @@
     [self hideLeftViewControllerAnimated:NO];
     leftViewController.view.userInteractionEnabled = YES;
     [leftViewController.view addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)]];
+    self.leftPanGesture.enabled = YES;
 }
 
+- (void) removeLeftViewController {
+    
+    [self hideLeftViewControllerAnimated:NO];
+    self.leftPanGesture.enabled = NO;
+    [self.leftViewController.view removeFromSuperview];
+    [self.leftViewController removeFromParentViewController];
+    _leftViewController = nil;
+}
+- (void) removeRightViewController {
+    
+    [self hideRightViewControllerAnimated:NO];
+    self.rightPanGesture.enabled = NO;
+    [self.rightViewController.view removeFromSuperview];
+    [self.rightViewController removeFromParentViewController];
+    _rightViewController = nil;
+}
 
 
 
