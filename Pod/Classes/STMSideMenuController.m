@@ -191,8 +191,6 @@
             x =  MAX(openNW,MIN(x + self.panningPadding,closedNW));
             alpha   = self.shadowViewAlpha - ABS(self.shadowViewAlpha* (x - openNW)/(openNW-closedNW));
             NSLog(@"%.f",x);
-            self.view.frame.size.width-self.rightClosedPosition;
-            self.view.frame.size.width-self.rightOpenPosition;
             self.rightConstraint.constant = MAX(self.view.frame.size.width-self.rightClosedPosition,MIN(self.view.frame.size.width-self.rightOpenPosition,self.view.frame.size.width-x));
         }
         frame.origin.x = x;
