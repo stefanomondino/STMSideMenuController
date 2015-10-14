@@ -9,17 +9,17 @@
 
 Pod::Spec.new do |s|
   s.name             = "STMSideMenuController"
-  s.version          = "0.1.3"
+  s.version          = "0.1.4"
   s.summary          = "A Google-like side-menu/drawer for iOS written in Objective-C"
   s.description      = <<-DESC
-                       A Google-like side-menu/drawer for iOS written in Objective-C with custom transition for central section
+                       A Google-like side-menu/drawer (both left and/or right) for iOS written in Objective-C with custom transition for central section
                        DESC
   s.homepage         = "https://github.com/stefanomondino/STMSideMenuController"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "Stefano Mondino" => "stefano.mondino.dev@gmail.com" }
   s.source           = { :git => "https://github.com/stefanomondino/STMSideMenuController.git", :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/puntoste'
+  s.social_media_url = 'https://twitter.com/puntoste'
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
@@ -29,7 +29,4 @@ Pod::Spec.new do |s|
     'STMSideMenuController' => ['Pod/Assets/*.png']
   }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end

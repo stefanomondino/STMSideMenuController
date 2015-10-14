@@ -123,22 +123,22 @@
     CGFloat velocity = [panGesture velocityInView:panGesture.view].x;
     UIScreenEdgePanGestureRecognizer* edge = [panGesture isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]?(UIScreenEdgePanGestureRecognizer*)panGesture:nil;
     BOOL isLeft = ((_panningView && _panningView == self.leftViewController.view) || (edge.edges == UIRectEdgeLeft)) ;
-
+    
     if (panGesture.state == UIGestureRecognizerStateBegan) {
         
         if (!self.isLeftOpen && !self.isRightOpen) {
             _panningView = isLeft? self.leftViewController.view : self.rightViewController.view;
-           
+            
             self.shadowView.hidden = NO;
             self.shadowView.alpha = 0;
         }
         else {
             _panningView = self.isLeftOpen?self.leftViewController.view : self.rightViewController.view;
         }
-         _panningPadding = _panningView.frame.origin.x;
+        _panningPadding = _panningView.frame.origin.x;
     }
     else if (panGesture.state == UIGestureRecognizerStateEnded) {
-
+        
         if (!_panningView) return;
         if (velocity > self.view.frame.size.width/3) {
             if (!self.isRightOpen && isLeft){
@@ -178,17 +178,22 @@
         
         CGFloat closedNW = isLeft? self.leftClosedPosition:self.rightClosedPosition;
         CGFloat openNW = isLeft? self.leftOpenPosition : self.rightOpenPosition;
-
+        
         CGRect frame = _panningView.frame;
         CGFloat alpha;
         if (isLeft){
             x =  MAX(self.leftClosedPosition,MIN(x + self.panningPadding,self.leftOpenPosition));
             alpha = (self.shadowViewAlpha* ( self.leftClosedPosition-x)/(self.leftClosedPosition-self.leftOpenPosition));
+            self.leftConstraint.constant = x;
         }
         else {
             
             x =  MAX(openNW,MIN(x + self.panningPadding,closedNW));
             alpha   = self.shadowViewAlpha - ABS(self.shadowViewAlpha* (x - openNW)/(openNW-closedNW));
+            NSLog(@"%.f",x);
+            self.view.frame.size.width-self.rightClosedPosition;
+            self.view.frame.size.width-self.rightOpenPosition;
+            self.rightConstraint.constant = MAX(self.view.frame.size.width-self.rightClosedPosition,MIN(self.view.frame.size.width-self.rightOpenPosition,self.view.frame.size.width-x));
         }
         frame.origin.x = x;
         self.shadowView.alpha = alpha;
@@ -305,7 +310,7 @@
         shadowView.alpha = shadowViewAlpha;
     };
     void (^completion)(BOOL) = ^(BOOL finished){
-
+        
     };
     
     if (animated) {
@@ -339,7 +344,7 @@
         animation();
         completion(YES);
     }
-
+    
 }
 
 
@@ -421,7 +426,7 @@
             [self customAnimationFromView:fromView toView:toView completion:completion];
             break;
         case STMAnimationNone:
-            default:
+        default:
             completion(NO);
             break;
     }
@@ -432,10 +437,10 @@
 
 - (void) alphaAnimationFromView:(UIView*) fromView toView:(UIView*) toView completion:(void (^)(BOOL))completion {
     toView.alpha = 0;
-     [UIView animateWithDuration:self.mainAnimationDuration animations:^{
-     toView.alpha = 1;
-     } completion:completion];
-
+    [UIView animateWithDuration:self.mainAnimationDuration animations:^{
+        toView.alpha = 1;
+    } completion:completion];
+    
 }
 - (CGRect) squareAroundPoint:(CGPoint) point withRadius:(CGFloat) radius {
     return CGRectInset(CGRectMake(point.x, point.y, 0, 0), -radius, -radius);
@@ -526,7 +531,7 @@
 - (NSLayoutConstraint*) stm_alignLeftWithWidth:(CGFloat) width {
     UIView* containerView = self.superview;
     self.translatesAutoresizingMaskIntoConstraints = NO;
-
+    
     [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
                                                               attribute:NSLayoutAttributeTop
                                                               relatedBy:NSLayoutRelationEqual
@@ -550,11 +555,11 @@
                                                               attribute:NSLayoutAttributeBottom
                                                              multiplier:1.0
                                                                constant:0.0]];
-
+    
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[self(==%.0f)]",width]
-                                                                   options:0
-                                                                   metrics:nil
-                                                                     views:NSDictionaryOfVariableBindings(self)]];
+                                                                 options:0
+                                                                 metrics:nil
+                                                                   views:NSDictionaryOfVariableBindings(self)]];
     return left;
 }
 - (NSLayoutConstraint*) stm_alignRightWithWidth:(CGFloat) width {
@@ -569,12 +574,12 @@
                                                              multiplier:1.0
                                                                constant:0.0]];
     NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:containerView
-                                                            attribute:NSLayoutAttributeTrailing
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self
-                                                            attribute:NSLayoutAttributeLeading
-                                                           multiplier:1.0
-                                                             constant:width];
+                                                             attribute:NSLayoutAttributeTrailing
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:self
+                                                             attribute:NSLayoutAttributeLeading
+                                                            multiplier:1.0
+                                                              constant:width];
     [containerView addConstraint:right];
     
     [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
