@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="whP-gf-Uak">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="whP-gf-Uak">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -58,7 +58,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bvW-1j-guB">
-                                <rect key="frame" x="283" y="254" width="37" height="30"/>
+                                <rect key="frame" x="283" y="254" width="36" height="30"/>
                                 <state key="normal" title="Right">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -66,14 +66,35 @@
                                     <action selector="showRightMenu:" destination="roW-Ws-25K" eventType="touchUpInside" id="hAO-Xe-u8r"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6sQ-jz-PX6">
+                                <rect key="frame" x="0.0" y="558" width="600" height="42"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test with CMD-Y for in-call status bar" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cab-RN-3Gj">
+                                        <rect key="frame" x="20" y="10" width="560" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.015686274510000001" green="0.22352941179999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="cab-RN-3Gj" firstAttribute="centerY" secondItem="6sQ-jz-PX6" secondAttribute="centerY" id="A27-eg-m5G"/>
+                                    <constraint firstItem="cab-RN-3Gj" firstAttribute="leading" secondItem="6sQ-jz-PX6" secondAttribute="leading" constant="20" id="JYb-MJ-iA8"/>
+                                    <constraint firstItem="cab-RN-3Gj" firstAttribute="top" secondItem="6sQ-jz-PX6" secondAttribute="top" constant="10" id="qJU-50-34U"/>
+                                    <constraint firstItem="cab-RN-3Gj" firstAttribute="centerX" secondItem="6sQ-jz-PX6" secondAttribute="centerX" id="ys2-P6-uA2"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.97647058819999999" green="0.62745098040000002" blue="0.16862745100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="UP5-gG-8B7" secondAttribute="centerY" id="0DV-6p-3ge"/>
+                            <constraint firstItem="GEX-M8-0yd" firstAttribute="top" secondItem="6sQ-jz-PX6" secondAttribute="bottom" id="133-vS-KRL"/>
                             <constraint firstItem="8Es-Fc-iMU" firstAttribute="top" secondItem="UP5-gG-8B7" secondAttribute="bottom" constant="8" id="APH-l2-EkA"/>
                             <constraint firstItem="8Es-Fc-iMU" firstAttribute="centerX" secondItem="UP5-gG-8B7" secondAttribute="centerX" id="H0s-ka-Gny"/>
                             <constraint firstItem="bvW-1j-guB" firstAttribute="centerX" secondItem="UP5-gG-8B7" secondAttribute="centerX" constant="1" id="NGT-bS-yIH"/>
                             <constraint firstItem="UP5-gG-8B7" firstAttribute="top" secondItem="bvW-1j-guB" secondAttribute="bottom" constant="1" id="PYa-tN-Gpq"/>
+                            <constraint firstAttribute="trailing" secondItem="6sQ-jz-PX6" secondAttribute="trailing" id="Qqh-Yq-yKh"/>
+                            <constraint firstItem="6sQ-jz-PX6" firstAttribute="leading" secondItem="i5j-0q-jYP" secondAttribute="leading" id="V9b-eg-lwc"/>
                             <constraint firstAttribute="centerX" secondItem="UP5-gG-8B7" secondAttribute="centerX" id="grf-d8-wU0"/>
                         </constraints>
                     </view>

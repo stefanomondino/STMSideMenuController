@@ -13,6 +13,8 @@
 - (void)stm_centerInSuperview;
 - (NSLayoutConstraint*) stm_alignLeftWithWidth:(CGFloat) width ;
 - (NSLayoutConstraint*) stm_alignRightWithWidth:(CGFloat) width;
+- (void) stm_alignToSuperview;
+
 @end
 
 @implementation UIViewController(STMSideMenuController)
@@ -55,7 +57,10 @@
     [self setupShadowView];
     self.leftWidth = 200;
     self.rightWidth = 100;
+    
+    
 }
+
 - (void)setLeftWidth:(CGFloat)leftWidth {
     _leftWidth = leftWidth;
     self.leftOpenPosition = 0;
@@ -236,6 +241,7 @@
     else {
         [self.view insertSubview:mainViewController.view aboveSubview:oldController.view];
     }
+    [mainViewController.view stm_alignToSuperview];
     [self hideLeftViewControllerAnimated:animated];
     [self hideRightViewControllerAnimated:animated];
     void (^completion)(BOOL) = ^(BOOL finished) {
@@ -595,7 +601,44 @@
     return right;
 }
 
-
+- (void) stm_alignToSuperview {
+    UIView* containerView = self.superview;
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeTrailing
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeTrailing
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeLeading
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeLeading
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    
+    
+    
+    return ;
+}
 
 
 @end
