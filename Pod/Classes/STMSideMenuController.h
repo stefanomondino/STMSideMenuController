@@ -6,7 +6,7 @@
 //
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 typedef enum {
     STMAnimationAlpha,
@@ -20,6 +20,8 @@ typedef enum {
 
 @interface UIViewController(STMSideMenuController)
 @property (nonatomic,readonly) STMSideMenuController* sideMenuController;
+- (IBAction)showLeftMenu:(id)sender;
+- (IBAction)showRightMenu:(id)sender;
 @end
 
 @interface STMSideMenuMainSegue : UIStoryboardSegue
@@ -40,6 +42,7 @@ typedef enum {
 @property (nonatomic,strong) UIColor* shadowViewColor;
 @property (nonatomic,assign) CGFloat sideAnimationDuration;
 @property (nonatomic,assign) CGFloat mainAnimationDuration;
+
 
 - (void)setMainViewController:(UIViewController *)mainViewController animated:(BOOL) animated;
 - (void) showLeftViewControllerAnimated:(BOOL) animated;
