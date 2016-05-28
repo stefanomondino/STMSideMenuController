@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		7BC7A9521CF98D9900985952 /* SideMenuController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BC7A9511CF98D9900985952 /* SideMenuController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BC7A95B1CF98DBC00985952 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 7BC7A9581CF98DBC00985952 /* .gitkeep */; };
-		7BC7A95C1CF98DBC00985952 /* STMSideMenuController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BC7A9591CF98DBC00985952 /* STMSideMenuController.h */; };
+		7BC7A95C1CF98DBC00985952 /* STMSideMenuController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BC7A9591CF98DBC00985952 /* STMSideMenuController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BC7A95D1CF98DBC00985952 /* STMSideMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BC7A95A1CF98DBC00985952 /* STMSideMenuController.m */; };
 /* End PBXBuildFile section */
 
@@ -301,6 +301,7 @@
 				7BC7A9561CF98D9900985952 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
