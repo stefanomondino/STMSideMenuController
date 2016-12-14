@@ -45,13 +45,15 @@ typedef enum {
 
 
 - (void)setMainViewController:(UIViewController *)mainViewController animated:(BOOL) animated;
+- (void) setLeftViewController:(UIViewController *)leftViewController;
+- (void) setRightViewController:(UIViewController *)rightViewController;
 - (void) showLeftViewControllerAnimated:(BOOL) animated;
 - (void) hideLeftViewControllerAnimated:(BOOL) animated;
 - (void) showRightViewControllerAnimated:(BOOL) animated;
 - (void) hideRightViewControllerAnimated:(BOOL) animated;
 - (void) removeRightViewController;
 - (void) removeLeftViewController;
-/** Define a custom transition between views */
+    /** Define a custom transition between views */
 - (void) customAnimationFromView:(UIView*) fromView toView:(UIView*) toView completion:(void (^)(BOOL))completion;
-
-@end
+    
+    @end
