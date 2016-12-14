@@ -310,7 +310,7 @@
     CGFloat w = self.leftOpenPosition;
     left.constant = w;
     void (^animation)(void) = ^{
-        [view layoutIfNeeded];
+        [view.superview layoutIfNeeded];
         shadowView.alpha = shadowViewAlpha;
     };
     void (^completion)(BOOL) = ^(BOOL finished){
@@ -333,7 +333,7 @@
     CGFloat x = self.leftClosedPosition;
     left.constant = x;
     void (^animation)(void) = ^{
-        [view layoutIfNeeded];
+        [view.superview layoutIfNeeded];
         shadowView.alpha = 0;
     };
     void (^completion)(BOOL) = ^(BOOL finished){
@@ -376,7 +376,7 @@
     right.constant = w;
     
     void (^animation)(void) = ^{
-        [view layoutIfNeeded];
+        [view.superview layoutIfNeeded];
         shadowView.alpha = shadowViewAlpha;
     };
     void (^completion)(BOOL) = ^(BOOL finished){
@@ -398,7 +398,7 @@
     CGFloat w = self.view.frame.size.width-self.rightClosedPosition;
     self.rightConstraint.constant = w;
     void (^animation)(void) = ^{
-        [view layoutIfNeeded];
+        [view.superview layoutIfNeeded];
         shadowView.alpha = 0;
     };
     void (^completion)(BOOL) = ^(BOOL finished){

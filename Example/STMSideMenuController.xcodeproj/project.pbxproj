@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2FD8732C56DF85998E0F97E8 /* Pods_STMSideMenuController_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBA7EEA3C982854EA0F809FF /* Pods_STMSideMenuController_Tests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -21,9 +20,11 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
-		61B1C6A3EFA287B076BF16F1 /* Pods_STMSideMenuController_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B278261B0AFD2476BD6FE261 /* Pods_STMSideMenuController_Example.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		6835666607E9B64F1A7F986C /* Pods_STMSideMenuController_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70CE04255545C957450438A9 /* Pods_STMSideMenuController_Tests.framework */; };
 		7B3F5C901B26EF9E00DEDE70 /* STMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3F5C8F1B26EF9E00DEDE70 /* STMMainViewController.m */; };
+		7BAC0A5F1E017BC300BEA18E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC0A5E1E017BC300BEA18E /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
+		B31BD17C60E618B9313F219F /* Pods_STMSideMenuController_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD2131933AAC07EF777C985 /* Pods_STMSideMenuController_Example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +39,6 @@
 
 /* Begin PBXFileReference section */
 		33A91C6B77E4B16C0845C9BA /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		599719EFB2D137EBEBE0A4EE /* Pods-STMSideMenuController_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STMSideMenuController_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-STMSideMenuController_Tests/Pods-STMSideMenuController_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* STMSideMenuController_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = STMSideMenuController_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -58,16 +58,18 @@
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
+		609990933112CB0797C01360 /* Pods-STMSideMenuController_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STMSideMenuController_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-STMSideMenuController_Tests/Pods-STMSideMenuController_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6652929B33354AA895514C4B /* STMSideMenuController.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = STMSideMenuController.podspec; path = ../STMSideMenuController.podspec; sourceTree = "<group>"; };
+		70CE04255545C957450438A9 /* Pods_STMSideMenuController_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_STMSideMenuController_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B3F5C8E1B26EF9E00DEDE70 /* STMMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STMMainViewController.h; sourceTree = "<group>"; };
 		7B3F5C8F1B26EF9E00DEDE70 /* STMMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STMMainViewController.m; sourceTree = "<group>"; };
+		7BAC0A5E1E017BC300BEA18E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		839CB01E124E91DBEBC39BC0 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		87136CF5B44405FF3CA64C4E /* Pods-STMSideMenuController_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STMSideMenuController_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-STMSideMenuController_Example/Pods-STMSideMenuController_Example.release.xcconfig"; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		93F633A59F5D6AC1590DD4BC /* Pods-STMSideMenuController_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STMSideMenuController_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-STMSideMenuController_Tests/Pods-STMSideMenuController_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		B278261B0AFD2476BD6FE261 /* Pods_STMSideMenuController_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_STMSideMenuController_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DBA7EEA3C982854EA0F809FF /* Pods_STMSideMenuController_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_STMSideMenuController_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DF1D4965A7191DF959E829EB /* Pods-STMSideMenuController_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STMSideMenuController_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-STMSideMenuController_Example/Pods-STMSideMenuController_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		AF75985836D2E39A14A2BE95 /* Pods-STMSideMenuController_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STMSideMenuController_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-STMSideMenuController_Example/Pods-STMSideMenuController_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		E0ACB177F79EFD85046FEF68 /* Pods-STMSideMenuController_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STMSideMenuController_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-STMSideMenuController_Example/Pods-STMSideMenuController_Example.release.xcconfig"; sourceTree = "<group>"; };
+		EA0FFC6DDC9F4644A17584B5 /* Pods-STMSideMenuController_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STMSideMenuController_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-STMSideMenuController_Tests/Pods-STMSideMenuController_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		FAD2131933AAC07EF777C985 /* Pods_STMSideMenuController_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_STMSideMenuController_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,7 +80,7 @@
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				61B1C6A3EFA287B076BF16F1 /* Pods_STMSideMenuController_Example.framework in Frameworks */,
+				B31BD17C60E618B9313F219F /* Pods_STMSideMenuController_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +91,7 @@
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
-				2FD8732C56DF85998E0F97E8 /* Pods_STMSideMenuController_Tests.framework in Frameworks */,
+				6835666607E9B64F1A7F986C /* Pods_STMSideMenuController_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,7 +106,7 @@
 				6003F5B5195388D20070C39A /* Tests */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
-				CD73FEAF2A8DDD763F6D5EE6 /* Pods */,
+				976A9B3B0842E935EF525EE8 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -124,8 +126,8 @@
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
-				B278261B0AFD2476BD6FE261 /* Pods_STMSideMenuController_Example.framework */,
-				DBA7EEA3C982854EA0F809FF /* Pods_STMSideMenuController_Tests.framework */,
+				FAD2131933AAC07EF777C985 /* Pods_STMSideMenuController_Example.framework */,
+				70CE04255545C957450438A9 /* Pods_STMSideMenuController_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -136,6 +138,7 @@
 				6003F59C195388D20070C39A /* STMAppDelegate.h */,
 				6003F59D195388D20070C39A /* STMAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
+				7BAC0A5E1E017BC300BEA18E /* LaunchScreen.storyboard */,
 				6003F5A5195388D20070C39A /* STMViewController.h */,
 				6003F5A6195388D20070C39A /* STMViewController.m */,
 				7B3F5C8E1B26EF9E00DEDE70 /* STMMainViewController.h */,
@@ -187,13 +190,13 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
-		CD73FEAF2A8DDD763F6D5EE6 /* Pods */ = {
+		976A9B3B0842E935EF525EE8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DF1D4965A7191DF959E829EB /* Pods-STMSideMenuController_Example.debug.xcconfig */,
-				87136CF5B44405FF3CA64C4E /* Pods-STMSideMenuController_Example.release.xcconfig */,
-				93F633A59F5D6AC1590DD4BC /* Pods-STMSideMenuController_Tests.debug.xcconfig */,
-				599719EFB2D137EBEBE0A4EE /* Pods-STMSideMenuController_Tests.release.xcconfig */,
+				AF75985836D2E39A14A2BE95 /* Pods-STMSideMenuController_Example.debug.xcconfig */,
+				E0ACB177F79EFD85046FEF68 /* Pods-STMSideMenuController_Example.release.xcconfig */,
+				EA0FFC6DDC9F4644A17584B5 /* Pods-STMSideMenuController_Tests.debug.xcconfig */,
+				609990933112CB0797C01360 /* Pods-STMSideMenuController_Tests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -205,12 +208,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "STMSideMenuController_Example" */;
 			buildPhases = (
-				E01595DB43BB7507B639BD03 /* Check Pods Manifest.lock */,
+				DDB68E044215C231FC448A47 /* [CP] Check Pods Manifest.lock */,
 				6003F586195388D20070C39A /* Sources */,
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
-				54A069864CE0859B739B84F3 /* Embed Pods Frameworks */,
-				6E5FC6E3430C7CCCEE30C06C /* Copy Pods Resources */,
+				CF222175E69EDE45D184F583 /* [CP] Embed Pods Frameworks */,
+				044F0CD380CCB448FF219760 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -225,12 +228,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "STMSideMenuController_Tests" */;
 			buildPhases = (
-				CD0112A904B486D06D45ECB7 /* Check Pods Manifest.lock */,
+				527135D91D1627CD7DBE4AB4 /* [CP] Check Pods Manifest.lock */,
 				6003F5AA195388D20070C39A /* Sources */,
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
-				82128C4698AA3BC6AB9AE6CE /* Embed Pods Frameworks */,
-				6B477CB722B3C6244E7767A5 /* Copy Pods Resources */,
+				731CF7B904E627CF756F2FCC /* [CP] Embed Pods Frameworks */,
+				98B041A52719BBE86E09B9A6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -282,6 +285,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
+				7BAC0A5F1E017BC300BEA18E /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
@@ -298,44 +302,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		54A069864CE0859B739B84F3 /* Embed Pods Frameworks */ = {
+		044F0CD380CCB448FF219760 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-STMSideMenuController_Example/Pods-STMSideMenuController_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6B477CB722B3C6244E7767A5 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-STMSideMenuController_Tests/Pods-STMSideMenuController_Tests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6E5FC6E3430C7CCCEE30C06C /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -343,14 +317,29 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-STMSideMenuController_Example/Pods-STMSideMenuController_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		82128C4698AA3BC6AB9AE6CE /* Embed Pods Frameworks */ = {
+		527135D91D1627CD7DBE4AB4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		731CF7B904E627CF756F2FCC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -358,34 +347,49 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-STMSideMenuController_Tests/Pods-STMSideMenuController_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CD0112A904B486D06D45ECB7 /* Check Pods Manifest.lock */ = {
+		98B041A52719BBE86E09B9A6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-STMSideMenuController_Tests/Pods-STMSideMenuController_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E01595DB43BB7507B639BD03 /* Check Pods Manifest.lock */ = {
+		CF222175E69EDE45D184F583 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-STMSideMenuController_Example/Pods-STMSideMenuController_Example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DDB68E044215C231FC448A47 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -472,7 +476,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -505,7 +509,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -514,13 +518,13 @@
 		};
 		6003F5C0195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DF1D4965A7191DF959E829EB /* Pods-STMSideMenuController_Example.debug.xcconfig */;
+			baseConfigurationReference = AF75985836D2E39A14A2BE95 /* Pods-STMSideMenuController_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "STMSideMenuController/STMSideMenuController-Prefix.pch";
 				INFOPLIST_FILE = "STMSideMenuController/STMSideMenuController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -529,13 +533,13 @@
 		};
 		6003F5C1195388D20070C39A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 87136CF5B44405FF3CA64C4E /* Pods-STMSideMenuController_Example.release.xcconfig */;
+			baseConfigurationReference = E0ACB177F79EFD85046FEF68 /* Pods-STMSideMenuController_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "STMSideMenuController/STMSideMenuController-Prefix.pch";
 				INFOPLIST_FILE = "STMSideMenuController/STMSideMenuController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -544,7 +548,7 @@
 		};
 		6003F5C3195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 93F633A59F5D6AC1590DD4BC /* Pods-STMSideMenuController_Tests.debug.xcconfig */;
+			baseConfigurationReference = EA0FFC6DDC9F4644A17584B5 /* Pods-STMSideMenuController_Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -567,7 +571,7 @@
 		};
 		6003F5C4195388D20070C39A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 599719EFB2D137EBEBE0A4EE /* Pods-STMSideMenuController_Tests.release.xcconfig */;
+			baseConfigurationReference = 609990933112CB0797C01360 /* Pods-STMSideMenuController_Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
