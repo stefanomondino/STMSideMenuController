@@ -36,6 +36,12 @@ typedef enum {
 @property (nonatomic,strong) UIViewController* mainViewController;
 @property (nonatomic,strong) UIViewController* leftViewController;
 @property (nonatomic,strong) UIViewController* rightViewController;
+
+
+/** Adds horizontal parallax movement during left side menu animation. Works only if no right view controller is installed */
+@property (nonatomic, assign) CGFloat leftParallaxAmount;
+/** Adds horizontal parallax movement during right side menu animation. Works only if no left view controller is installed */
+@property (nonatomic, assign) CGFloat rightParallaxAmount;
 @property (nonatomic,assign) CGFloat leftWidth;
 @property (nonatomic,assign) CGFloat rightWidth;
 @property (nonatomic,assign) CGFloat shadowViewAlpha;

@@ -19,13 +19,15 @@
     [super viewDidLoad];
     self.leftWidth = 250;
     self.rightWidth = 150;
+    self.leftParallaxAmount = 0.5;
+    self.rightParallaxAmount = 0.2;
     self.animationType = STMAnimationSlideUp;
     
     UIViewController* mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"main"];
 
     
     [self performSegueWithIdentifier:@"leftMenuSegue" sender:nil];
-    [self performSegueWithIdentifier:@"rightMenuSegue" sender:nil];
+   // [self performSegueWithIdentifier:@"rightMenuSegue" sender:nil];
     self.mainViewController = mainViewController;
 }
 /*

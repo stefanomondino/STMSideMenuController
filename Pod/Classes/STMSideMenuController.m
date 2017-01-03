@@ -11,6 +11,9 @@
 @interface UIView (STMSideMenuController)
 
 - (void)stm_centerInSuperview;
+- (void) stm_alignToLeftView: (UIView*) view withParallaxAmount:(CGFloat) parallaxAmount;
+- (void) stm_alignToRightView: (UIView*) view withParallaxAmount:(CGFloat) parallaxAmount;
+- (void) stm_alignToLeftView: (UIView*) leftView  rightView:(UIView*) rightView withLeftParallaxAmount:(CGFloat) leftParallaxAmount rightParallaxAmount:(CGFloat)rightParallaxAmount;
 - (NSLayoutConstraint*) stm_alignLeftWithWidth:(CGFloat) width ;
 - (NSLayoutConstraint*) stm_alignRightWithWidth:(CGFloat) width;
 - (void) stm_alignToSuperview;
@@ -57,14 +60,15 @@
     [self setupShadowView];
     self.leftWidth = 200;
     self.rightWidth = 100;
-    
+    self.leftParallaxAmount = 0;
+    self.rightParallaxAmount = 0;
     
 }
 
 - (void)setLeftWidth:(CGFloat)leftWidth {
-    _leftWidth = leftWidth;
+    _leftWidth = floorf(leftWidth);
     self.leftOpenPosition = 0;
-    self.leftClosedPosition = -leftWidth;
+    self.leftClosedPosition = -_leftWidth;
 }
 - (CGFloat)sideAnimationDuration {
     if(_sideAnimationDuration <= 0) {
@@ -79,8 +83,8 @@
     return _mainAnimationDuration;
 }
 - (void)setRightWidth:(CGFloat)rightWidth {
-    _rightWidth = rightWidth;
-    self.rightOpenPosition  =  self.view.frame.size.width - rightWidth;
+    _rightWidth = floorf(rightWidth);
+    self.rightOpenPosition  =  self.view.frame.size.width - _rightWidth;
     self.rightClosedPosition  =  self.view.frame.size.width;
 }
 - (void) setupShadowView {
@@ -198,10 +202,12 @@
             NSLog(@"%.f",x);
             self.rightConstraint.constant = MAX(self.view.frame.size.width-self.rightClosedPosition,MIN(self.view.frame.size.width-self.rightOpenPosition,self.view.frame.size.width-x));
         }
-        frame.origin.x = x;
+        //frame.origin.x = x;
+        NSLog(@"%f",alpha);
+        
+        //_panningView.frame = frame;
         self.shadowView.alpha = alpha;
         
-        _panningView.frame = frame;
     }
     else {
         _panningView = nil;
@@ -241,7 +247,24 @@
     else {
         [self.view insertSubview:mainViewController.view aboveSubview:oldController.view];
     }
-    [mainViewController.view stm_alignToSuperview];
+    
+    if (self.leftViewController == nil && self.rightViewController == nil) {
+         [mainViewController.view stm_alignToSuperview];
+    }
+    else if (self.leftViewController != nil && self.rightViewController != nil) {
+       // [mainViewController.view stm_alignToLeftView:self.leftViewController.view rightView:self.rightViewController.view withLeftParallaxAmount:self.leftParallaxAmount rightParallaxAmount:self.rightParallaxAmount];
+        [mainViewController.view stm_alignToSuperview];
+    }
+    else if (self.leftViewController != nil) {
+        [mainViewController.view stm_alignToLeftView:self.leftViewController.view withParallaxAmount:self.leftParallaxAmount];
+    }
+    else {
+         [mainViewController.view stm_alignToRightView:self.leftViewController.view withParallaxAmount:self.leftParallaxAmount];
+    }
+    
+    //
+    
+    
     [self hideLeftViewControllerAnimated:animated];
     [self hideRightViewControllerAnimated:animated];
     void (^completion)(BOOL) = ^(BOOL finished) {
@@ -257,6 +280,7 @@
     
     [mainViewController.view addGestureRecognizer:self.leftPanGesture];
     [mainViewController.view addGestureRecognizer:self.rightPanGesture];
+    
 }
 
 - (void) setLeftViewController:(UIViewController *)leftViewController {
@@ -294,7 +318,7 @@
 
 
 - (BOOL) isLeftOpen {
-    return self.leftViewController &&  self.leftViewController.view.frame.origin.x != self.leftClosedPosition;
+    return self.leftViewController &&  ABS(self.leftViewController.view.frame.origin.x - self.leftClosedPosition)>1;
 }
 
 
@@ -417,19 +441,19 @@
 
 - (void) animateFromView:(UIView*) fromView toView:(UIView*) toView completion:(void (^)(BOOL))completion {
     switch (self.animationType) {
-        case STMAnimationCircularReveal:
+            case STMAnimationCircularReveal:
             [self circularAnimationFromView:fromView toView:toView completion:completion];
             break;
-        case STMAnimationSlideUp:
+            case STMAnimationSlideUp:
             [self slideUpAnimationFromView:fromView toView:toView completion:completion];
             break;
-        case STMAnimationAlpha:
+            case STMAnimationAlpha:
             [self alphaAnimationFromView:fromView toView:toView completion:completion];
             break;
-        case STMAnimationCustom:
+            case STMAnimationCustom:
             [self customAnimationFromView:fromView toView:toView completion:completion];
             break;
-        case STMAnimationNone:
+            case STMAnimationNone:
         default:
             completion(NO);
             break;
@@ -639,8 +663,146 @@
     
     return ;
 }
+- (void) stm_alignToLeftView: (UIView*) view withParallaxAmount:(CGFloat) parallaxAmount {
+    UIView* containerView = self.superview;
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeWidth
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:self
+                                                            attribute:NSLayoutAttributeLeading
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:view
+                                                            attribute:NSLayoutAttributeTrailing
+                                                           multiplier:MAX(0,MIN(1,parallaxAmount))
+                                                             constant:0.0];
+    left.priority = 750;
+    [containerView addConstraint:left];
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    
+    
+    
+    return ;
+}
 
-
+- (void) stm_alignToRightView: (UIView*) view withParallaxAmount:(CGFloat) parallaxAmount {
+    UIView* containerView = self.superview;
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeWidth
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:self
+                                                            attribute:NSLayoutAttributeTrailing
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:view
+                                                            attribute:NSLayoutAttributeLeading
+                                                           multiplier:MAX(0,MIN(1,parallaxAmount))
+                                                             constant:0.0];
+    right.priority = 750;
+    [containerView addConstraint:right];
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    
+    
+    
+    return ;
+}
+- (void) stm_alignToLeftView: (UIView*) leftView  rightView:(UIView*) rightView withLeftParallaxAmount:(CGFloat) leftParallaxAmount rightParallaxAmount:(CGFloat)rightParallaxAmount {
+    UIView* containerView = self.superview;
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeWidth
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:self
+                                                             attribute:NSLayoutAttributeTrailing
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:rightView
+                                                             attribute:NSLayoutAttributeLeading
+                                                            multiplier:MAX(0,MIN(1,rightParallaxAmount))
+                                                              constant:0.0];
+    right.priority = 750;
+    
+    [containerView addConstraint:right];
+    
+    NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:self
+                                                            attribute:NSLayoutAttributeLeading
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:leftView
+                                                            attribute:NSLayoutAttributeTrailing
+                                                           multiplier:MAX(0,MIN(1,leftParallaxAmount))
+                                                             constant:0.0];
+    left.priority = 760;
+    [containerView addConstraint:left];
+    
+    [containerView addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    NSLayoutConstraint* origin = [NSLayoutConstraint constraintWithItem:self
+                                                              attribute:NSLayoutAttributeTrailing
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:containerView
+                                                              attribute:NSLayoutAttributeTrailing
+                                                             multiplier:1.0
+                                                               constant:0.0];
+    origin.priority = 749;
+//    [containerView addConstraint:origin];
+    
+    return ;
+}
 @end
 
 @implementation STMSideMenuMainSegue
