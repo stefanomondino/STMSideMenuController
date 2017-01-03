@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "STMSideMenuController"
-  s.version          = "1.2"
+  s.version          = "1.2.1"
   s.summary          = "A Google-like side-menu/drawer for iOS written in Objective-C"
   s.description      = <<-DESC
                        A Google-like side-menu/drawer (both left and/or right) for iOS written in Objective-C with custom transition for central section

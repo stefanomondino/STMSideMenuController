@@ -255,11 +255,14 @@
        // [mainViewController.view stm_alignToLeftView:self.leftViewController.view rightView:self.rightViewController.view withLeftParallaxAmount:self.leftParallaxAmount rightParallaxAmount:self.rightParallaxAmount];
         [mainViewController.view stm_alignToSuperview];
     }
-    else if (self.leftViewController != nil) {
+    else if (self.leftViewController != nil && self.leftParallaxAmount > 0) {
         [mainViewController.view stm_alignToLeftView:self.leftViewController.view withParallaxAmount:self.leftParallaxAmount];
     }
-    else {
+    else if (self.rightViewController != nil && self.rightParallaxAmount > 0) {
          [mainViewController.view stm_alignToRightView:self.leftViewController.view withParallaxAmount:self.leftParallaxAmount];
+    }
+    else {
+        [mainViewController.view stm_alignToSuperview];
     }
     
     //
@@ -687,7 +690,7 @@
                                                             relatedBy:NSLayoutRelationEqual
                                                                toItem:view
                                                             attribute:NSLayoutAttributeTrailing
-                                                           multiplier:MAX(0,MIN(1,parallaxAmount))
+                                                           multiplier:MAX(0.0001,MIN(1,parallaxAmount))
                                                              constant:0.0];
     left.priority = 750;
     [containerView addConstraint:left];
@@ -728,7 +731,7 @@
                                                             relatedBy:NSLayoutRelationEqual
                                                                toItem:view
                                                             attribute:NSLayoutAttributeLeading
-                                                           multiplier:MAX(0,MIN(1,parallaxAmount))
+                                                           multiplier:MAX(0.0001,MIN(1,parallaxAmount))
                                                              constant:0.0];
     right.priority = 750;
     [containerView addConstraint:right];
@@ -768,7 +771,7 @@
                                                              relatedBy:NSLayoutRelationEqual
                                                                 toItem:rightView
                                                              attribute:NSLayoutAttributeLeading
-                                                            multiplier:MAX(0,MIN(1,rightParallaxAmount))
+                                                            multiplier:MAX(0.0001,MIN(1,rightParallaxAmount))
                                                               constant:0.0];
     right.priority = 750;
     
