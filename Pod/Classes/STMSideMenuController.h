@@ -48,8 +48,8 @@ typedef enum {
 @property (nonatomic,strong) UIColor* shadowViewColor;
 @property (nonatomic,assign) CGFloat sideAnimationDuration;
 @property (nonatomic,assign) CGFloat mainAnimationDuration;
-
-
+@property (nonatomic,assign) BOOL hidesLeftControllerOnMainChange;
+@property (nonatomic,assign) BOOL hidesRightControllerOnMainChange;
 - (void)setMainViewController:(UIViewController *)mainViewController animated:(BOOL) animated;
 - (void) setLeftViewController:(UIViewController *)leftViewController;
 - (void) setRightViewController:(UIViewController *)rightViewController;

@@ -58,6 +58,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupShadowView];
+    self.hidesLeftControllerOnMainChange = YES;
+    self.hidesRightControllerOnMainChange = YES;
     self.leftWidth = 200;
     self.rightWidth = 100;
     self.leftParallaxAmount = 0;
@@ -240,6 +242,12 @@
     UIViewController* oldController = self.mainViewController;
     if (!oldController) animated = NO;
     _mainViewController = mainViewController;
+    if (self.hidesLeftControllerOnMainChange){
+        [self hideLeftViewControllerAnimated:animated];
+    }
+    if (self.hidesRightControllerOnMainChange){
+        [self hideRightViewControllerAnimated:animated];
+    }
     [self addChildViewController:mainViewController];
     if (!oldController) {
         [self.view insertSubview:mainViewController.view atIndex:0];
@@ -268,8 +276,7 @@
     //
     
     
-    [self hideLeftViewControllerAnimated:animated];
-    [self hideRightViewControllerAnimated:animated];
+
     void (^completion)(BOOL) = ^(BOOL finished) {
         [oldController.view removeFromSuperview];
         [oldController removeFromParentViewController];
@@ -329,6 +336,9 @@
     return self.rightViewController &&  self.rightViewController.view.frame.origin.x != self.rightClosedPosition;
 }
 - (void) showLeftViewControllerAnimated:(BOOL) animated {
+    if (self.leftViewController == nil) {
+        return;
+    }
     UIView* view = self.leftViewController.view;
     NSLayoutConstraint* left = self.leftConstraint;
     UIView* shadowView = self.shadowView;
@@ -354,6 +364,9 @@
 }
 
 - (void) hideLeftViewControllerAnimated:(BOOL) animated {
+    if (self.leftViewController == nil) {
+        return;
+    }
     UIView* view = self.leftViewController.view;
     NSLayoutConstraint* left = self.leftConstraint;
     UIView* shadowView = self.shadowView;
@@ -394,6 +407,9 @@
 }
 
 - (void) showRightViewControllerAnimated:(BOOL) animated {
+    if (self.rightViewController == nil) {
+        return;
+    }
     UIView* view = self.rightViewController.view;
     UIView* shadowView = self.shadowView;
     CGFloat shadowViewAlpha = self.shadowViewAlpha;
@@ -420,6 +436,9 @@
 }
 
 - (void) hideRightViewControllerAnimated:(BOOL) animated {
+    if (self.rightViewController == nil) {
+        return;
+    }
     UIView* view = self.rightViewController.view;
     UIView* shadowView = self.shadowView;
     CGFloat w = self.view.frame.size.width-self.rightClosedPosition;
